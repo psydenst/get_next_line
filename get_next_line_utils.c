@@ -6,7 +6,7 @@
 /*   By: psydenst <psydenst@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:27:28 by psydenst          #+#    #+#             */
-/*   Updated: 2022/06/13 20:28:17 by psydenst         ###   ########.fr       */
+/*   Updated: 2022/06/14 18:50:58 by psydenst         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,24 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[b] != '\0')
 		p[a++] = s2[b++];
 	p[a] = '\0';
-	// free(s1);
 	return (p);
 }
 
-int	ft_strchr(char *str, int c)
+
+char	*ft_strchr(char *s, int c)
 {
-	while (*str)
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
 	{
-		if (*str == c)
-			return (1);
-		str++;
+		if (s[i] == (unsigned char)c)
+			return (s + i);
+		i++;
 	}
-	//if (!*str++)
-	//	return ((char *) '\0');
+	if (c == '\0')
+		return (s + i);
 	return (0);
 }
