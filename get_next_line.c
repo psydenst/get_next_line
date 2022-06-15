@@ -6,31 +6,30 @@
 /*   By: psydenst <psydenst@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 17:51:31 by psydenst          #+#    #+#             */
-/*   Updated: 2022/06/14 18:57:15 by psydenst         ###   ########.fr       */
+/*   Updated: 2022/06/15 20:13:17 by psydenst         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h> // APAGA
 
 char	*ft_read_and_save(char *save, int fd)
 {
 	char	*buffer;
-	int		index;
+	int		bytes_i_ve_read;
 
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	index = 1;
-	while (!ft_strchr(save, '\n') && index != 0)
+	bytes_i_ve_read = 1;
+	while (!ft_strchr(save, '\n') && bytes_i_ve_read != 0)
 	{
-		index = read(fd, buffer, BUFFER_SIZE);
-		if (index == -1)
+		bytes_i_ve_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_i_ve_read == -1)
 		{
 			free (buffer);
 			return (NULL);
 		}
-		buffer[index] = '\0';
+		buffer[bytes_i_ve_read] = '\0';
 		save = ft_strjoin(save, buffer);
 	}
 	free (buffer);
@@ -44,7 +43,7 @@ char	*get_line(char *save)
 	char	*line;
 
 	i = 0;
-	if (!save)
+	if (!save[i])
 		return (NULL);
 	while (save[i] && save[i] != '\n')
 		i++;
@@ -81,7 +80,7 @@ char	*ft_save_rest(char *save)
 		free (save);
 		return (NULL);
 	}
-	ret = malloc((ft_strlen(save) - i + 1) * sizeof(char));
+	ret = (char *)malloc((ft_strlen(save) - i + 1) * sizeof(char));
 	if (!ret)
 		return (NULL);
 	j = 0;
@@ -108,20 +107,3 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// #include <fcntl.h>
-// #include <stdio.h>
-// int main()
-// {
-// 	int fd = open("file.txt",  O_RDONLY);
-// 	printf("%i\n", fd);
-// 	char *ret;
-// 	int i = 0;
-// 	while (i <= 30)
-// 	{
-// 		ret = get_next_line(fd);
-// 		printf("%s", ret);
-// 		free(ret);
-// 		i++;
-// 	}
-// 	close(fd);
-// }
